@@ -14,8 +14,8 @@
 
 /**
  * enum flags - sets to either allocated or free
- * @ALLOCATED
- * @FREE
+ * @ALLOCATED: in use memory
+ * @FREE: free'd memory
  *
  * This enum is used to flag memory as free or in use
  */
