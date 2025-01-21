@@ -18,7 +18,8 @@ void *naive_malloc(size_t size)
 	if (!heap_start)
 	{
 		heap_start = sbrk(0);
-		heap_end = sbrk(4096);
+		sbrk(4096);
+		heap_end = sbrk(0);
 		chunks = 0;
 	}
 
@@ -32,7 +33,7 @@ void *naive_malloc(size_t size)
 
 	/* write rest of heap header */
 	new_header = (nmheader_t *)((char *)chunk + NHEADER_SIZE + size);
-        new_header->size = *(size_t *)((char *)heap_end - (char *)new_header - NHEADER_SIZE);
+        new_header->size = (size_t)((char *)heap_end - (char *)new_header - NHEADER_SIZE);
 
 	return (void *)((char *)chunk + NHEADER_SIZE);
 }

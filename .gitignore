@@ -2,3 +2,4 @@
 core.*
 malloc
 free
+test.c
