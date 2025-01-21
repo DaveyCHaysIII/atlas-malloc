@@ -12,6 +12,14 @@
 #define NHEADER_SIZE sizeof(nmheader_t)
 #define ALIGN_SIZE(size) (((size) + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1))
 
+/**
+ * enum flags - sets to either allocated or free
+ * @ALLOCATED
+ * @FREE
+ *
+ * This enum is used to flag memory as free or in use
+ */
+
 enum flags
 {
 	ALLOCATED,
@@ -19,7 +27,7 @@ enum flags
 };
 
 /**
- * mheader_t - header for _malloc
+ * struct mheader_s - header for _malloc
  * @size: the size of the block
  * @flag: 1 for free, 0 for allocated
  * @prev: pointer to the previous block
@@ -35,7 +43,7 @@ typedef struct mheader_s
 } mheader_t;
 
 /**
- * nmheader_t - header for the naive malloc
+ * struct nmheader_s - header for the naive malloc
  * @size: the size of the block
  *
  */
