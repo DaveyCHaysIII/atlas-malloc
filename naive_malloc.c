@@ -33,14 +33,15 @@ void *naive_malloc(size_t size)
 
 	/* write rest of heap header */
 	new_header = (nmheader_t *)((char *)chunk + NHEADER_SIZE + size);
-        new_header->size = (size_t)((char *)heap_end - (char *)new_header - NHEADER_SIZE);
+	new_header->size = (size_t)((char *)heap_end
+			- (char *)new_header - NHEADER_SIZE);
 
-	return (void *)((char *)chunk + NHEADER_SIZE);
+	return ((void *)((char *)chunk + NHEADER_SIZE));
 }
 
 /**
  * find_next_chunk - traverse the heap to find next free chunk
- * @ptr: starting point of heap
+ * @heap_start: starting point of heap
  * @chunks: number of chunks in heap
  *
  * Return: void * to next free chunk
@@ -54,8 +55,9 @@ void *find_next_chunk(void *heap_start, size_t chunks)
 	while (chunks > 0)
 	{
 		nmheader_t *header = (nmheader_t *)nptr;
-       		nptr = (void *)((char *)nptr + header->size + NHEADER_SIZE);
+
+		nptr = (void *)((char *)nptr + header->size + NHEADER_SIZE);
 		chunks--;
 	}
-	return nptr;
+	return (nptr);
 }
