@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <stdint.h>
 
 #define ALIGNMENT 8
 #define HEADER_SIZE sizeof(mheader_t)
