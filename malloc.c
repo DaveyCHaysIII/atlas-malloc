@@ -59,6 +59,7 @@ void *heap_init(void **heap_start, void **heap_end, size_t size, size_t i)
 {
 	void *end;
 
+	/*write(1, "heap init\n", 10);*/
 	*heap_start = ALIGN_UP(sbrk(0));
 	if (sbrk(i) == (void *)-1)
 	{
@@ -85,12 +86,14 @@ void *heap_init(void **heap_start, void **heap_end, size_t size, size_t i)
 
 void *find_block(void **heap_start, void **heap_end, size_t size, size_t i)
 {
-	mheader_t *new_header, *current = (mheader_t *)*heap_start;
+	mheader_t *new_header = NULL, *current = (mheader_t *)*heap_start;
 
+	/*write(1, "heap_find\n", 10);*/
 	for (; new_header == NULL && current != NULL; current = current->next)
 	{
 		if (current->next == NULL)
 		{
+			/*write(1, "NULL\n", 5);*/
 			if (current->size < size)
 			{
 				sbrk(i);
@@ -104,8 +107,11 @@ void *find_block(void **heap_start, void **heap_end, size_t size, size_t i)
 			current->next = make_header(ptr, remain, NULL, UNUSED);
 			new_header = current; continue;
 		}
+
 		if (current->free != FREE)
-			 continue;
+		{
+			continue;
+		}
 		if ((current->size - current->in_use) > size + HEADER_SIZE)
 		{
 			void *snext,*next = current->next;
@@ -123,6 +129,7 @@ void *find_block(void **heap_start, void **heap_end, size_t size, size_t i)
 			current->in_use = size; current->free = NO;
 			new_header = current;
 		}
+
 	}
 	return ((void *)(((char *)new_header) + HEADER_SIZE));
 }
