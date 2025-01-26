@@ -59,13 +59,13 @@ void *heap_init(void **heap_start, void **heap_end, size_t size, size_t i)
 {
 	void *end;
 
-	*heap_start = sbrk(0);
+	*heap_start = ALIGN_UP(sbrk(0));
 	if (sbrk(i) == (void *)-1)
 	{
 		perror("sbrk failed");
 		return (NULL);
 	}
-	*heap_end = sbrk(0);
+	*heap_end = ALIGN_UP(sbrk(0));
 
 	end = NEXT_HEADER(*heap_start);
 	(void)make_header(*heap_start, size, end, NO);
