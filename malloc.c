@@ -74,10 +74,10 @@ void *heap_init(void **heap_start, void **heap_end, size_t size, size_t i)
 	end = NEXT_HEADER(*heap_start);
 	(void)make_header(*heap_start, size, end, NO);
 	(void)make_header(end, GET_REMAIN(*heap_end, end), NULL, UNUSED);
-	write(1, "INIT\n", 5);
+	/*write(1, "INIT\n", 5);
 	write_address(*heap_start);
 	write_address(*heap_end);
-	write(1, "ENDI\n", 5);
+	write(1, "ENDI\n", 5);*/
 	return ((void *)(((char *)*heap_start) + HEADER_SIZE));
 }
 
