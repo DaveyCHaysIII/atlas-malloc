@@ -14,7 +14,8 @@
 #define ALIGN_SIZE(size) (((size) + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1))
 #define ALIGN_UP(addr) ((void *)(((uintptr_t)(addr) + ALIGNMENT - 1) & ~(ALIGNMENT - 1)))
 #define PAGE_SIZE 4096
-#define GET_INCREMENT(size) ((((size) + PAGE_SIZE - 1) / PAGE_SIZE) * PAGE_SIZE)
+#define GET_INCREMENT(size) ((size) == PAGE_SIZE ? (PAGE_SIZE * 2) \
+		: (((size) + PAGE_SIZE - 1) & ~(PAGE_SIZE - 1)))
 #define GET_REMAIN(heap_end, current) \
 	((char *)(heap_end) - (char *)(current))
 #define NEXT_HEADER(current) \
