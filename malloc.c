@@ -105,8 +105,8 @@ void *find_block(void **heap_start, void **heap_end, size_t size, size_t i)
 			write(1, "uh oh!\n", 7);
 		if (current->next == NULL)
 		{
-			write(1, "NULL ", 5);
-			write_address(current);
+			/*write(1, "NULL ", 5);
+			write_address(current);*/
 			if (GET_REMAIN(*heap_end, current) < (size + (HEADER_SIZE * 2)))
 			{
 				write(1, "GROW\n", 5);
