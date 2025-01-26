@@ -102,7 +102,7 @@ void *find_block(void **heap_start, void **heap_end, size_t size, size_t i)
 	{
 		if ((void *)current > *heap_end)
 			write(1, "uh oh!\n", 7);
-		if (current->next == NULL)
+		if (current->next == NULL && current->free != NO)
 		{
 			/*write(1, "\n", 1);
 			write(1, "current->size ", 14 );
