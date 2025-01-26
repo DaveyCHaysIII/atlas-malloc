@@ -12,6 +12,11 @@
 #define NHEADER_SIZE sizeof(nmheader_t)
 #define ALIGN_SIZE(size) (((size) + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1))
 #define PAGE_SIZE 4096
+#define GET_INCREMENT(size) ((size) < PAGE_SIZE ? PAGE_SIZE : 2 * (size))
+#define GET_REMAIN(heap_end, current) \
+	*(size_t *)((char *)heap_end - (char *) current)
+#define NEXT_HEADER(current) \
+	((void *)((char *)(current) + (current)->size + (HEADER_SIZE)))
 
 /**
  * enum flags - sets to either allocated or free

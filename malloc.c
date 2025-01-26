@@ -35,44 +35,43 @@ void *_malloc(size_t size)
 
 	if (!heap_start)
 	{
-		size_t increment = (size < PAGE_SIZE) ? PAGE_SIZE : 2 * size;
+		size_t increment = GET_INCREMENT(size);
 		heap_start = sbrk(0);
-		if (sbrk(increment) == (void *)-1)
-		{
-			perror("sbrk failed");
-			return (NULL);
-		}
+		sbrk(increment);
 		heap_end = sbrk(0);
 	}
 	size = ALIGN_SIZE(size);
 
 	new_header = NULL;
+	current = (mheader_t *)heap_start;
 	while (new_header == NULL)
 	{
-		current = (mheader_t *)heap_start;
 		if (current->next == NULL)
 		{
+			if (current->size < size)
+			{
+				size_t i = GET_INCREMENT(size);
+				sbrk(increment);
+				heap_end = sbrk(0);
+			}
 			current->size = size;
 			current->in_use = size;
 			current->flag = ALLOCATED;
-			current->next = make_header(((void *)(char *)current + current->size + HEADER_SIZE), *(size_t *)((char *)heap_end - (char *)current), NULL, INIT);
 
+			void *ptr = NEXT_HEADER(current);
+			size_t remain = GET_REMAIN(heap_end, current);
+			current->next = make_header(ptr, remain, NULL, INIT);
 		}
 
 		if (current->flag != FREE)
-		{
-			current = current->next;
-			continue;
-		}
-		if (current->size > size)
-		{
-			if ((current->size - current->in_use)
-				> size + HEADER_SIZE)
-			{
+			current = current->next; continue;
 
-			}
+		if ((current->size - current->in_use) > size + HEADER_SIZE)
+		{
 
 		}
+
+		current = current->next;
 	}
 	return ((void *)(new_header + 1));
 }
