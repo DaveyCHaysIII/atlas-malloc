@@ -1,5 +1,8 @@
 #include "malloc.h"
 
+
+void write_address(void *ptr);
+
 /**
  * _malloc - the naive implementation of malloc
  * @size: size of allocation
@@ -71,6 +74,10 @@ void *heap_init(void **heap_start, void **heap_end, size_t size, size_t i)
 	end = NEXT_HEADER(*heap_start);
 	(void)make_header(*heap_start, size, end, NO);
 	(void)make_header(end, GET_REMAIN(*heap_end, end), NULL, UNUSED);
+	write(1, "INIT\n", 5);
+	write_address(*heap_start);
+	write_address(*heap_end);
+	write(1, "ENDI\n", 5);
 	return ((void *)(((char *)*heap_start) + HEADER_SIZE));
 }
 
@@ -86,16 +93,23 @@ void *heap_init(void **heap_start, void **heap_end, size_t size, size_t i)
 
 void *find_block(void **heap_start, void **heap_end, size_t size, size_t i)
 {
-	mheader_t *new_header = NULL, *current = (mheader_t *)*heap_start;
+	mheader_t *new_header = NULL;
+	mheader_t *current = (mheader_t *)*heap_start;
 
 	/*write(1, "heap_find\n", 10);*/
+	write_address(*heap_start);
+	write_address(*heap_end);
 	for (; new_header == NULL && current != NULL; current = current->next)
 	{
+		if ((void *)current > *heap_end)
+			write(1, "uh oh!\n", 7);
 		if (current->next == NULL)
 		{
-			/*write(1, "NULL\n", 5);*/
-			if (current->size < size)
+			write(1, "NULL ", 5);
+			write_address(current);
+			if (GET_REMAIN(*heap_end, current) < (size + (HEADER_SIZE * 2)))
 			{
+				write(1, "GROW\n", 5);
 				sbrk(i);
 				*heap_end = sbrk(0);
 			}
@@ -103,7 +117,7 @@ void *find_block(void **heap_start, void **heap_end, size_t size, size_t i)
 			current->free = NO;
 
 			void *ptr = NEXT_HEADER(current);
-			size_t remain = GET_REMAIN(*heap_end, current);
+			size_t remain = GET_REMAIN(*heap_end, current->next);
 			current->next = make_header(ptr, remain, NULL, UNUSED);
 			new_header = current; continue;
 		}
@@ -129,7 +143,15 @@ void *find_block(void **heap_start, void **heap_end, size_t size, size_t i)
 			current->in_use = size; current->free = NO;
 			new_header = current;
 		}
+		fflush(stdout);
 
 	}
 	return ((void *)(((char *)new_header) + HEADER_SIZE));
+}
+
+void write_address(void *ptr)
+{
+	static char buffer[20];
+	snprintf(buffer, sizeof(buffer), "0x%p\n", ptr);
+	write(1, buffer, strlen(buffer));
 }
