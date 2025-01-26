@@ -14,9 +14,9 @@ void print_address(void *ptr) {
 // Testing the _malloc implementation
 void test_malloc() {
     // Allocate some blocks using _malloc
-    void *block1 = _malloc(4096);  // Allocate 100 bytes
-    void *block2 = _malloc(4096);  // Allocate 200 bytes
-    void *block3 = _malloc(4096);  // Allocate 300 bytes
+    void *block1 = _malloc(8192);  // Allocate 100 bytes
+    void *block2 = _malloc(8192);  // Allocate 200 bytes
+    void *block3 = _malloc(8192);  // Allocate 300 bytes
 
     // Check if the blocks were allocated
     if (block1) {
