@@ -18,7 +18,7 @@ void *_malloc(size_t size)
 	size_t i;
 
 	size = ALIGN_SIZE(size);
-	i = PAGE_SIZE;
+	i = GET_INCREMENT(size);
 
 	if (!heap_start)
 		return (heap_init(&heap_start, &heap_end, size, i));
@@ -122,7 +122,7 @@ void *find_block(void **heap_start, void **heap_end, size_t size, size_t i)
 			if (current->size <= size + HEADER_SIZE)
 			{
 				/*write(1, "GROW!!", 7);*/
-				sbrk(PAGE_SIZE);
+				sbrk(i);
 				*heap_end = sbrk(0);
 			}
 			current->size = size;
