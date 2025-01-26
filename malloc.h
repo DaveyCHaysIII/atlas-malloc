@@ -13,10 +13,10 @@
 #define NHEADER_SIZE sizeof(nmheader_t)
 #define ALIGN_SIZE(size) (((size) + (ALIGNMENT - 1)) & ~(ALIGNMENT - 1))
 #define ALIGN_UP(addr) ((void *)(((uintptr_t)(addr) + ALIGNMENT - 1) & ~(ALIGNMENT - 1)))
-#define PAGE_SIZE 65536
-#define GET_INCREMENT(size) ((((size) + PAGE_SIZE - 1) / PAGE_SIZE) * PAGE_SIZE)
+#define PAGE_SIZE 4096
+/*#define GET_INCREMENT(size) ((((size) + PAGE_SIZE - 1) / PAGE_SIZE) * PAGE_SIZE)*/
 #define GET_REMAIN(heap_end, current) \
-	((char *)(heap_end) - (char *)(current) - HEADER_SIZE)
+	((char *)(heap_end) - (char *)(current))
 #define NEXT_HEADER(current) \
 	((void *)((char *)((mheader_t *)(current)) + ((mheader_t *)(current))->size + HEADER_SIZE))
 /**
@@ -72,4 +72,5 @@ void *find_block(void **heap_start, void **heap_end, size_t size, size_t i);
 
 void _free(void *addr);
 
+void _write_size(size_t size);
 #endif

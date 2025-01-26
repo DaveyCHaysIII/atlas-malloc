@@ -8,13 +8,23 @@ void test_malloc() {
     for (i = 0; i < 1000; i++) {
         ptr = _malloc(1); // Request 1 byte of memory
         if (ptr == NULL) {
-            printf("Allocation %zu failed\n", i + 1);
+		write(1, "failed", 6);
         } else {
-            printf("Block %zu allocated at address: %p\n", i + 1, ptr);
+		write(1, "test # ", 7);
+		_write_size(i);
+		write(1, " success\n", 9);
         }
     }
 
     printf("Test completed.\n");
+}
+
+
+void _write_size(size_t size)
+{
+	static char buffer[20];
+	snprintf(buffer, sizeof(buffer), "%lu", size);
+	write(1, buffer, strlen(buffer));
 }
 
 int main() {
