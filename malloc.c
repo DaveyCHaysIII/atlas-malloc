@@ -72,13 +72,25 @@ void *heap_init(void **heap_start, void **heap_end, size_t size, size_t i)
 	}
 	*heap_end = ALIGN_UP(sbrk(0));
 
-	end = NEXT_HEADER(*heap_start);
-	(void)make_header(*heap_start, size, end, NO);
-	(void)make_header(end, GET_REMAIN(*heap_end, end), NULL, UNUSED);
+	mheader_t *current = make_header(*heap_start, size, NULL, NO);
+	end = NEXT_HEADER(current);
+	current->next = make_header(end, ((char *)*heap_end - ((char *)end + HEADER_SIZE)), NULL, UNUSED);
 	/*write(1, "INIT\n", 5);
 	write_address(*heap_start);
 	write_address(*heap_end);
 	write(1, "ENDI\n", 5);*/
+	/*write(1, "\n", 1);
+	write(1, "heap_start ", 11);
+	write_address(*heap_start);
+	write(1, "heap_end ", 9);
+	write_address(*heap_end);
+	write(1, "end hdr ", 8);
+	write_address(end);
+	write(1, "diff: ", 6);
+	write_size(((char *)end - (char *)*heap_start));
+	write(1, "\n", 1);*/
+
+
 	return ((void *)(((char *)*heap_start) + HEADER_SIZE));
 }
 

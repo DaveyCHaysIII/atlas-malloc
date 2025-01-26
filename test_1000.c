@@ -2,11 +2,16 @@
 
 
 void test_malloc() {
-    void *ptr;
+    void *ptr, *last_ptr = NULL;
     size_t i;
 
     for (i = 0; i < 1000; i++) {
         ptr = _malloc(1); // Request 1 byte of memory
+	if (last_ptr != NULL)
+	{
+		if (((char *)ptr - (char *)last_ptr) < 40)
+		       write(1, "OOPS!", 5);
+	}
         if (ptr == NULL) {
 		write(1, "failed", 6);
         } else {
@@ -14,6 +19,7 @@ void test_malloc() {
 		_write_size(i);
 		write(1, " success\n", 9);
         }
+	last_ptr = ptr;
     }
 
     printf("Test completed.\n");
