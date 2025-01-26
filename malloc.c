@@ -70,7 +70,7 @@ void *heap_init(void **heap_start, void **heap_end, size_t size, size_t i)
 	end = NEXT_HEADER(*heap_start);
 	(void)make_header(*heap_start, size, end, NO);
 	(void)make_header(end, GET_REMAIN(*heap_end, end), NULL, UNUSED);
-	return ((void *)(char *)*heap_start + HEADER_SIZE);
+	return ((void *)(((char *)*heap_start) + HEADER_SIZE));
 }
 
 /**
@@ -124,5 +124,5 @@ void *find_block(void **heap_start, void **heap_end, size_t size, size_t i)
 			new_header = current;
 		}
 	}
-	return ((void *)(char *)new_header + HEADER_SIZE);
+	return ((void *)(((char *)new_header) + HEADER_SIZE));
 }
