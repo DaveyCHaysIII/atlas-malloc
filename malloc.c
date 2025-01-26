@@ -97,8 +97,8 @@ void *find_block(void **heap_start, void **heap_end, size_t size, size_t i)
 	mheader_t *current = (mheader_t *)*heap_start;
 
 	/*write(1, "heap_find\n", 10);*/
-	write_address(*heap_start);
-	write_address(*heap_end);
+	/*write_address(*heap_start);
+	write_address(*heap_end);*/
 	for (; new_header == NULL && current != NULL; current = current->next)
 	{
 		if ((void *)current > *heap_end)
