@@ -70,8 +70,5 @@ void *_malloc(size_t size);
 void *make_header(void *addr, size_t size, void *next, size_t free);
 void *heap_init(void **heap_start, void **heap_end, size_t size, size_t i);
 void *find_block(void **heap_start, void **heap_end, size_t size, size_t i);
-
 void _free(void *addr);
-
-void _write_size(size_t size);
 #endif
