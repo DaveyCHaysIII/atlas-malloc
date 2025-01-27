@@ -42,7 +42,10 @@ void *make_header(void *addr, size_t size, void *next, size_t free)
 	mheader_t *current = (mheader_t *)addr;
 
 	current->size = size;
-	current->in_use = size;
+	if(free != FREE)
+		current->in_use = size;
+	else
+		current->in_use = 0;
 	current->next = next;
 	current->free = free;
 
@@ -117,7 +120,7 @@ void *find_block(void **heap_start, void **heap_end, size_t size, size_t i)
 	{
 		if ((void *)current > *heap_end)
 			write(1, "uh oh!\n", 7);
-		if (current->next == NULL && current->free != NO)
+		if (current->next == NULL)
 		{
 			/*write(1, "\n", 1);
 			write(1, "current->size ", 14 );

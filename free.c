@@ -15,4 +15,5 @@ void _free(void *addr)
 		return;
 	entry = (mheader_t *)((char *)addr - HEADER_SIZE);
 	entry->free = FREE;
+	entry->in_use = 0;
 }

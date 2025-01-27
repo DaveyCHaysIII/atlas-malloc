@@ -44,8 +44,40 @@ void test_malloc() {
     }
 
     _free(block1);
+    void *block4 = _malloc(200);
+    void *block5 = _malloc(300);
+    void *block6 = _malloc(100);
+
+    if (block4) {
+        my_write("Block 4 allocated at address: ");
+        print_address(block4);  // Print the address of block2
+        my_write("\n");
+    } else {
+        my_write("Block 4 allocation failed!\n");
+    }
+
+    if (block5) {
+        my_write("Block 5 allocated at address: ");
+        print_address(block5);  // Print the address of block2
+        my_write("\n");
+    } else {
+        my_write("Block 5 allocation failed!\n");
+    }
+
+
+    if (block6) {
+        my_write("Block 6 allocated at address: ");
+        print_address(block6);  // Print the address of block2
+        my_write("\n");
+    } else {
+        my_write("Block 6 allocation failed!\n");
+    }
     _free(block2);
     _free(block3);
+
+    _free(block4);
+    _free(block5);
+    _free(block6);
 
 
     // Print out completion message
