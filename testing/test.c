@@ -1,4 +1,4 @@
-#include "malloc.h"
+#include "../malloc.h"
 
 void my_write(const char *str) {
     write(1, str, strlen(str));
