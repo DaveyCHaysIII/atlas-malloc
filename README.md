@@ -4,6 +4,9 @@ A C standard library function to dynamically allocate memory to the HEAP
 
 ![heap](./jurassic-park-ian-malcolm.avif)
 
+## linkedin
+https://www.linkedin.com/in/daveyhaysiii/
+
 ## Description
 
 This is an implimentation of malloc, a naive version and a version meant to work alongside \_free. The goal is to better understand memory allocation and to make a robust design able to operate similarly to the C standard library family of functions.
